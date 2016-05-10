@@ -1,20 +1,55 @@
 <section >
 
   <div class="container" ng-controller="elementAddCtrl as elements">
+    <div class="row">
 
-    <form name="addPlaceForm" accessible-form ng-submit="elements.addRecord(addPlaceForm.$valid)" novalidate autocomplete="off">
-      <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.name.$error.required}">
-        <label for="name">Название</label>
-        <input type="text" name="name" class="form-control" id="name" ng-model="elements.name" placeholder="Название" required>
-        <p class="help-block error-text" ng-show="addPlaceForm.name.$error.required" ng-if="addPlaceForm.$submitted">Name is required.</p>
-      </div>
-      <div class="form-group" ng-hide="true">
-        <input type="text" name="address" class="form-control" id="address" ng-model="elements.address" required >
-      </div>
-      <div class="alert alert-danger" ng-show="addPlaceForm.address.$error.required" ng-if="addPlaceForm.$submitted" role="alert">Вы не отметили место на карте</div>
-      <button type="submit" class="btn btn-default">Сохранить</button>
-    </form>
+      <div class="col-md-6">
 
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Форма добавления нового эелемента</h3>
+          </div>
+          <div class="panel-body">
+
+            <form name="addPlaceForm" accessible-form ng-submit="elements.addRecord(addPlaceForm)" novalidate autocomplete="off">
+              <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.name.$error.required}">
+                <label for="name">Название записи</label>
+                <input type="text" name="name" class="form-control" id="name" ng-model="elements.name" placeholder="Название"  maxlength="40" ng-trim="true" required>
+                <p class="help-block error-text" ng-show="addPlaceForm.name.$error.required" ng-if="addPlaceForm.$submitted">Введите название записи.</p>
+              </div>
+              <div class="form-group" ng-hide="true">
+                <input type="text" name="address" class="form-control" id="address" ng-model="elements.address" required >
+              </div>
+              <div class="alert alert-danger" ng-show="addPlaceForm.address.$error.required" ng-if="addPlaceForm.$submitted" role="alert">Вы не отметили место на карте.</div>
+              <button type="submit" class="btn btn-default">Сохранить</button>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Новый элемент</h3>
+          </div>
+          <div class="panel-body">
+            <dl class="dl-horizontal">
+              <dt>Название</dt>
+              <dd>{{elements.name}}</dd>
+              <dt>Адрес</dt>
+              <dd>{{elements.address}}</dd>
+            </dl>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- GOOGLE MAP DIRECTIVE -->
     <ui-gmap-google-map center='elements.map.center' zoom='elements.map.zoom' events="elements.map.mapEvents"></ui-gmap-google-map>
 
     <pre>

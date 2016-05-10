@@ -1,5 +1,11 @@
 body {
-  padding-top: 70px;
+  padding-top: 190px;
+}
+
+@media (min-width: 768px){
+  body {
+    padding-top: 70px;
+  }
 }
 
 .angular-google-map-container {

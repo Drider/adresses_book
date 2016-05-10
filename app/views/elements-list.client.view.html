@@ -1,12 +1,13 @@
 <section ng-controller="elementListCtrl as elements">
 
   <div class="container">
-    <h1>Element list</h1>
+    <h1>Список записей</h1>
     <div class="list-group">
       <a href="#" class="list-group-item" ng-click="elements.openDetail($event, elem)" ng-repeat="elem in elements.elementsData | orderBy : '-add_time'">
-        <h4 class="list-group-item-heading">{{elem.name}}</h4>
-        <p class="list-group-item-text">{{elem.add}}</p>
-        <p class="list-group-item-text">add {{elem.add_time | date:'medium'}}</p>
+        <h4 class="list-group-item-heading"><strong>Название записи:</strong> {{elem.name}}</h4>
+        <p class="list-group-item-text"><strong>Адрес:</strong> {{elem.address.formatted_address}}</p>
+        <hr>
+        <p class="list-group-item-text">{{elem.add_time | date:'medium'}}</p>
       </a>
     </div>
 
