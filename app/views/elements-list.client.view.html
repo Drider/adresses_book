@@ -1,0 +1,16 @@
+<section ng-controller="elementListCtrl as elements">
+
+  <div class="container">
+    <h1>Element list</h1>
+    <div class="list-group">
+      <a href="#" class="list-group-item" ng-click="elements.openDetail($event, elem)" ng-repeat="elem in elements.elementsData | orderBy : '-add_time'">
+        <h4 class="list-group-item-heading">{{elem.name}}</h4>
+        <p class="list-group-item-text">{{elem.add}}</p>
+        <p class="list-group-item-text">add {{elem.add_time | date:'medium'}}</p>
+      </a>
+    </div>
+
+  </div>
+
+
+</section>

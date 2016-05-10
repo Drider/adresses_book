@@ -1,0 +1,26 @@
+<section >
+
+  <div class="container" ng-controller="elementAddCtrl as elements">
+
+    <form name="addPlaceForm" accessible-form ng-submit="elements.signup(addPlaceForm.$valid)" novalidate autocomplete="off">
+      <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.name.$error.required}">
+        <label for="name">Название</label>
+        <input type="text" name="name" class="form-control" id="name" ng-model="elements.name" placeholder="Название" required>
+        <p class="help-block error-text" ng-show="addPlaceForm.name.$error.required" ng-if="addPlaceForm.$submitted">Name is required.</p>
+      </div>
+      <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.addition.$error.required}">
+        <label for="addition">Дополнительно</label>
+        <input type="text" name="addition" class="form-control" id="addition" ng-model="elements.addition" placeholder="Дополнительно" required>
+        <p class="help-block error-text" ng-show="addPlaceForm.addition.$error.required" ng-if="addPlaceForm.$submitted">поле обязательно для заполнения</p>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+    <pre>
+      {{elements.newElem}}
+    </pre>
+
+  </div>
+
+
+</section>

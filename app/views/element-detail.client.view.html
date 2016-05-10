@@ -1,0 +1,21 @@
+<section ng-controller="elementDetailCtrl as elements">
+
+  <div class="container" >
+    <div class="jumbotron" ng-show="elements.oneElement">
+      <h1>Element detail </h1>
+      <p><small>({{elements.oneElement.add_time | date:'medium'}})</small></p>
+      <p>Название {{elements.oneElement.name}}</p>
+      <p>Дополнительно {{elements.oneElement.add}}</p>
+      <p><a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a></p>
+    </div>
+
+    <div class="alert alert-info" role="alert" ng-hide="elements.oneElement">
+      Нет данных для отображения.<br>
+      Для просмотра детальных данных пожалуйста выберите инетресующий вас элемент на странице
+      <a ui-sref="elements-list">списка адресов</a>.
+    </div>
+  </div>
+
+
+
+</section>
