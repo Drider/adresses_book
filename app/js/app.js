@@ -7,8 +7,20 @@ angular.module('addressBook',[]);
 var coreModule = angular.module('core', [
   'ui.router',
   'ngStorage',
+  'uiGmapgoogle-maps',
   'addressBook'
 ]);
+
+angular.module('myApplicationModule', ['uiGmapgoogle-maps']).config(
+  ['uiGmapGoogleMapApiProvider', function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+      key: 'AIzaSyB5OHEhSURGrR-dk8oAH8gggyHzOK_eR8M',
+      v: '3.20', //defaults to latest 3.X anyhow
+      libraries: 'weather,geometry,visualization',
+      china: true
+    });
+  }]
+);
 
 coreModule.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
   //

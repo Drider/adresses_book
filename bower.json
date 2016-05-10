@@ -11,6 +11,7 @@
     "angular-ui-router": "^0.2.18",
     "jquery": "^2.2.3",
     "bootstrap": "^3.3.6",
-    "ngstorage": "^0.3.10"
+    "ngstorage": "^0.3.10",
+    "angular-google-maps": "^2.3.2"
   }
 }

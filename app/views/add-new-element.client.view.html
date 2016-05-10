@@ -2,22 +2,23 @@
 
   <div class="container" ng-controller="elementAddCtrl as elements">
 
-    <form name="addPlaceForm" accessible-form ng-submit="elements.signup(addPlaceForm.$valid)" novalidate autocomplete="off">
+    <form name="addPlaceForm" accessible-form ng-submit="elements.addRecord(addPlaceForm.$valid)" novalidate autocomplete="off">
       <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.name.$error.required}">
         <label for="name">Название</label>
         <input type="text" name="name" class="form-control" id="name" ng-model="elements.name" placeholder="Название" required>
         <p class="help-block error-text" ng-show="addPlaceForm.name.$error.required" ng-if="addPlaceForm.$submitted">Name is required.</p>
       </div>
-      <div class="form-group" ng-class="{'has-error': addPlaceForm.$submitted && addPlaceForm.addition.$error.required}">
-        <label for="addition">Дополнительно</label>
-        <input type="text" name="addition" class="form-control" id="addition" ng-model="elements.addition" placeholder="Дополнительно" required>
-        <p class="help-block error-text" ng-show="addPlaceForm.addition.$error.required" ng-if="addPlaceForm.$submitted">поле обязательно для заполнения</p>
+      <div class="form-group" ng-hide="true">
+        <input type="text" name="address" class="form-control" id="address" ng-model="elements.address" required >
       </div>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <div class="alert alert-danger" ng-show="addPlaceForm.address.$error.required" ng-if="addPlaceForm.$submitted" role="alert">Вы не отметили место на карте</div>
+      <button type="submit" class="btn btn-default">Сохранить</button>
     </form>
 
+    <ui-gmap-google-map center='elements.map.center' zoom='elements.map.zoom' events="elements.map.mapEvents"></ui-gmap-google-map>
+
     <pre>
-      {{elements.newElem}}
+      {{elements.address}}
     </pre>
 
   </div>
