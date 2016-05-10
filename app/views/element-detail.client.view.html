@@ -3,14 +3,18 @@
   <div class="container" >
     <div class="jumbotron clearfix" ng-show="elements.oneElement">
 
-      <p>Название: {{elements.oneElement.name}}</p>
-      <p>Адрес: {{elements.oneElement.address.formatted_address}}</p>
-      <button class="btn btn-primary btn-lg" ng-click="elements.setMapCenter()">Центрировать карту на маркере</button>
+      <p><strong>Название:</strong> {{elements.oneElement.name}}</p>
+      <p><strong>Адрес:</strong> {{elements.oneElement.address.formatted_address}}</p>
+
       <!-- GOOGLE MAP DIRECTIVE -->
       <ui-gmap-google-map center='elements.map.center' zoom='elements.map.zoom' events="elements.map.events"></ui-gmap-google-map>
 
       <hr>
-      <p class="pull-left"><a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a></p>
+      <div class="btn-group pull-left" role="group" aria-label="...">
+        <a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a>
+        <a class="btn btn-primary btn-lg" ng-click="elements.setMapCenter()">Центрировать карту на маркере</a>
+      </div>
+      <!--<p class="pull-left"><a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a></p>-->
       <p class="pull-right"><small>({{elements.oneElement.add_time | date:'medium'}})</small></p>
     </div>
 

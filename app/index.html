@@ -30,10 +30,18 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <ul class="nav navbar-nav">
-          <li role="presentation" ui-sref-active="active"><a ui-sref="main">Main</a></li>
-          <li role="presentation" ui-sref-active="active"><a ui-sref="elements-list">List</a></li>
-          <li role="presentation" ui-sref-active="active"><a ui-sref="element-detail">Detail</a></li>
-          <li role="presentation" ui-sref-active="active"><a ui-sref="add-new-element">Add</a></li>
+          <li role="presentation" ui-sref-active="active">
+            <a ui-sref="main"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Главная</a>
+          </li>
+          <li role="presentation" ui-sref-active="active">
+            <a ui-sref="elements-list"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Список записей</a>
+          </li>
+          <li role="presentation" ui-sref-active="active">
+            <a ui-sref="element-detail"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> Просмотр записи</a>
+          </li>
+          <li role="presentation" ui-sref-active="active">
+            <a ui-sref="add-new-element"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить запись</a>
+          </li>
         </ul>
       </div>
     </nav>
