@@ -5,26 +5,25 @@
 
       <p><strong>Название:</strong> {{elements.oneElement.name}}</p>
       <p><strong>Адрес:</strong> {{elements.oneElement.address.formatted_address}}</p>
+      <p class="text-right"><small>({{elements.oneElement.add_time | date:'medium'}})</small></p>
 
       <!-- GOOGLE MAP DIRECTIVE -->
       <ui-gmap-google-map center='elements.map.center' zoom='elements.map.zoom' events="elements.map.events"></ui-gmap-google-map>
 
       <hr>
-      <div class="btn-group pull-left" role="group" aria-label="...">
-        <a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a>
+      <div class="btn-group" role="group">
+        <a class="btn btn-primary btn-lg" ui-sref="{{elements.lastState}}" role="button">Назад</a>
         <a class="btn btn-primary btn-lg" ng-click="elements.setMapCenter()">Центрировать карту на маркере</a>
       </div>
-      <!--<p class="pull-left"><a class="btn btn-primary btn-lg" ui-sref="elements-list" role="button">Назад</a></p>-->
-      <p class="pull-right"><small>({{elements.oneElement.add_time | date:'medium'}})</small></p>
+
     </div>
 
     <div class="alert alert-info" role="alert" ng-hide="elements.oneElement">
       Нет данных для отображения.<br>
       Для просмотра детальных данных пожалуйста выберите инетресующий вас элемент на странице
-      <a ui-sref="elements-list">списка адресов</a>.
+      <a ui-sref="elements-list"><em>списка записей</em></a>.
     </div>
+
   </div>
-
-
 
 </section>

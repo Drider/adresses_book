@@ -60,17 +60,9 @@ angular.module('addressBook')
       deferred.resolve(_elementsData);
       return deferred.promise;
     };
-    this.showAllApartmentData = function () {
-      console.log(_elementsData);
-    };
-    this.isData = function () {
-      for (var prop in _elementsData) {
-        return true;
-      }
-      return false;
-    };
-    this.findData = function (apartmentId) {
-      return _find(apartmentId);
+    this.clear = function () {
+      _LS.elementsData = null;
+      _elementsData = {};
     }
 
   }]);

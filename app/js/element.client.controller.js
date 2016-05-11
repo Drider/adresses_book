@@ -1,31 +1,14 @@
 'use strict';
 
 angular.module('addressBook')
-  .directive("regExInput", function(){
-    "use strict";
-    return {
-      restrict: "A",
-      require: "?regEx",
-      scope: {},
-      replace: false,
-      link: function(scope, element, attrs, ctrl){
-        element.bind('keypress', function (event) {
-          var regex = new RegExp(attrs.regEx);
-          var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-          if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-          }
-        });
-      }
-    };
-  })
 
   // elements list page ctrl
   //
   .controller('elementListCtrl', function ($localStorage,$state,ElementsStore) {
     var vm = this;
     vm.elementsData = [];
+    vm.clearStore = clearStore;
+    vm.openDetail = openDetail;
 
     //Load records
     ElementsStore.loadAll()
@@ -38,13 +21,17 @@ angular.module('addressBook')
 
       });
 
-    vm.openDetail = function (e, elem) {
+    function clearStore () {
+      ElementsStore.clear();
+      vm.elementsData = [];
+    }
+
+    function openDetail (e, elem) {
       e.preventDefault();
 
       vm.oneElement = elem;
       $state.go('element-detail',{id:elem._id});
-
-    };
+    }
 
   })
 
@@ -52,6 +39,7 @@ angular.module('addressBook')
   //
   .controller('elementDetailCtrl', function ($localStorage,$state,$stateParams,ElementsStore,uiGmapGoogleMapApi,uiGmapIsReady) {
     var vm = this;
+    vm.lastState = $state.previous.state.name || 'main';
 
     //Load records
     ElementsStore.loadAll();
@@ -61,26 +49,27 @@ angular.module('addressBook')
       ElementsStore.get($stateParams.id)
         .then(function (data) {
           vm.oneElement = data;
-          vm.mapCenter = { latitude:  +data.address.location.lat, longitude: +data.address.location.lng };
-          console.log(vm.mapCenter);
+          vm.mapCenterCoords = { latitude:  +data.address.location.lat, longitude: +data.address.location.lng };
 
           vm.map = {
-            center: vm.mapCenter,
+            center: vm.mapCenterCoords,
             zoom: 10
           };
 
           uiGmapIsReady.promise(1).then(function(instances) {
             vm.mapInst = instances[0];
-            console.log(vm.mapInst);
-            //add marker to the map
+
+            // Create and add marker to the map
+            //
             new google.maps.Marker({
               animation: google.maps.Animation.DROP,
               position: data.address.location,
               map:vm.mapInst.map
             });
+
           });
 
-          vm.setMapCenter = function () {
+          vm.setMapCenter = function setMapCenter () {
             if (vm.mapInst) {
               vm.mapInst.map.setCenter(data.address.location);
             }
@@ -88,25 +77,27 @@ angular.module('addressBook')
 
         });
 
-
-
     }
-    
-
 
   })
 
   // add element page ctrl
   //
-  .controller('elementAddCtrl', function ($scope,$localStorage,$state,ElementsStore,uiGmapGoogleMapApi,uiGmapIsReady) {
+  .controller('elementAddCtrl', function ($scope,$state,ElementsStore,uiGmapGoogleMapApi,uiGmapIsReady) {
 
     var vm = this;
     var marker;
+    var INIT_MAP_CENTER_COORDS = {latitude: 55.00597621361476, longitude: 82.9412841796875}; // NSK
+
+    vm.latLng = null;
+    vm.addRecord = addRecord;
+
     //Load records
     ElementsStore.loadAll();
 
+
     vm.map = {
-      center: {latitude: 55.00597621361476, longitude: 82.9412841796875},
+      center: INIT_MAP_CENTER_COORDS,
       zoom: 10,
       mapEvents: {
         'click': function (maps, eventName, originalEventArgs) {
@@ -124,7 +115,6 @@ angular.module('addressBook')
                   vm.latLng = latlng.toJSON();
                 });
 
-                console.log(results[0].formatted_address); // details address
               } else {
                 console.log('Location not found');
               }
@@ -133,7 +123,10 @@ angular.module('addressBook')
             }
           });
 
+
+          marker.getVisible() || marker.setVisible(true); // check marker visibility
           marker.setPosition(latlng.toJSON());
+
         }
       }
     };
@@ -141,7 +134,6 @@ angular.module('addressBook')
     uiGmapIsReady.promise(1).then(function(instances) {
       var inst = instances[0];
 
-      vm.latLng = null;
       marker = new google.maps.Marker({
         animation: google.maps.Animation.DROP,
         map:inst.map
@@ -149,8 +141,8 @@ angular.module('addressBook')
 
     });
 
-    vm.addRecord = function (formCtrl) {
-      console.log(formCtrl);
+    function addRecord (formCtrl) {
+
       if (formCtrl.$valid) {
         vm.newElem = {
           add_time: Date.now(),
@@ -160,20 +152,26 @@ angular.module('addressBook')
             location: vm.latLng
           }
         };
+
+        // Add new element to localStorage
+        //
         ElementsStore.add(generateRandomAlphaNum(8),vm.newElem);
 
+        // clear form and data
+        //
         vm.name = vm.address = '';
         formCtrl.$setPristine();
         formCtrl.$setUntouched();
+        marker.setVisible(false);
       }
 
-    };
-
+    }
     //helper func to generate random ID
     function generateRandomAlphaNum(len) {
       var rdmString = "";
       for( ; rdmString.length < len; rdmString  += Math.random().toString(36).substr(2));
       return  rdmString.substr(0, len);
     }
+
 
   });

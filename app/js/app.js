@@ -6,12 +6,13 @@ angular.module('addressBook',[]);
 
 var coreModule = angular.module('core', [
   'ui.router',
+  'ui.bootstrap',
   'ngStorage',
   'uiGmapgoogle-maps',
   'addressBook'
 ]);
 
-angular.module('myApplicationModule', ['uiGmapgoogle-maps']).config(
+angular.module('googleMapsModule', ['uiGmapgoogle-maps']).config(
   ['uiGmapGoogleMapApiProvider', function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
       key: 'AIzaSyB5OHEhSURGrR-dk8oAH8gggyHzOK_eR8M',
@@ -46,3 +47,22 @@ coreModule.config(['$stateProvider','$urlRouterProvider',function($stateProvider
       templateUrl: "views/add-new-element.client.view.html",
     });
 }]);
+
+coreModule.run(function ($rootScope, $state) {
+  // Record previous state
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    storePreviousState(fromState, fromParams);
+  });
+
+  // Store previous state
+  function storePreviousState(state, params) {
+    // only store this state if it shouldn't be ignored
+    if (!state.data || !state.data.ignoreState) {
+      $state.previous = {
+        state: state,
+        params: params,
+        href: $state.href(state, params)
+      };
+    }
+  }
+})

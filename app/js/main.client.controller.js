@@ -1,12 +1,27 @@
 'use strict';
 
-var coreModule = angular.module('core');
+angular.module('core')
+  .controller('mainCtrl', function($scope,$state,ElementsStore) {
+    var vm = this;
+    vm.asyncSelected = undefined;
 
-coreModule.controller('mainCtrl', function($localStorage) {
-  var vm = this;
+    vm.getElements = getElements;
 
-  vm.storage = $localStorage;
-  vm.storage.count = 1;
+    $scope.$watch(function () {
+      return vm.asyncSelected;
+    }, function(current, original) {
+      vm.isCheckVal = angular.isObject(current) && current.hasOwnProperty('_id');
+    });
 
+    function getElements (val) {
+      return ElementsStore.get().then(function (data) {
+        var arr = [];
+        angular.forEach(data, function(value, key) {
+          value._id = key;
+          (value.name.toLocaleLowerCase().indexOf(val) > -1) && this.push(value);
+        }, arr);
+        return arr;
+      })
+    }
 
-});
+  });
